@@ -4,15 +4,15 @@ if (!defined('W2P_BASE_DIR')) {
 }
 
 // check permissions
-$perms = &$AppUI->acl();
+$perms = $AppUI->acl();
 if (!canEdit('system')) {
-	$AppUI->redirect('m=public&a=access_denied');
+    $AppUI->redirect('m=public&a=access_denied');
 }
 
 $module = w2PgetParam($_REQUEST, 'module', 'admin');
 $lang = w2PgetParam($_REQUEST, 'lang', $AppUI->user_locale);
 
-$AppUI->savePlace('m=system&a=translate&module=' . $module . '&lang=' . $lang);
+$AppUI->savePlace('m=system&a=available_translations');
 
 // read the installed modules
 $modules = arrayMerge($AppUI->readDirs('modules'), array('common' => 'common', 'styles' => 'styles'));
@@ -90,6 +90,7 @@ $titleBlock->addCell(arraySelect($locales, 'lang', 'size="1" class="text" onchan
 $AppUI->setWarning($temp);
 
 $titleBlock->addCrumb('?m=system', 'system admin');
+$titleBlock->addCrumb('?m=system&a=available_translations', 'available translations');
 $titleBlock->show();
 ?>
 
