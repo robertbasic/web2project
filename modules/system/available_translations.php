@@ -75,7 +75,7 @@ $titleBlock->show();
         $s .= '<td>' . $localeInfo[1] . '</td>';
         if($canInstall && !in_array($locale, $installedLocales)) {
             $s .= '<td>';
-            $s .= '<form action="?m=system&a=translation_install" method="post" name="installlocale" accept-charset="utf-8">';
+            $s .= '<form action="?m=system&a=do_translation_install" method="post" name="installlocale" accept-charset="utf-8">';
             $s .= '<input type="hidden" name="locale" value="'. $locale .'" />';
             $s .= '<input type="submit" value="'. $AppUI->_('submit') .'" class="button" />';
             $s .= '</form>';
