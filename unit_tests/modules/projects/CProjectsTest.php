@@ -993,7 +993,7 @@ $this->obj->overrideDatabase($this->mockDB);                //TODO: remove this 
      */
     public function testGetContacts()
     {
-        $contacts = CProject::getContacts(null, 1);
+        $contacts = $this->obj->getContactList();
 
         $this->assertEquals(1,                      count($contacts));
         $this->assertEquals(1,                      $contacts[1]['contact_id']);
