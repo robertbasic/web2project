@@ -703,9 +703,9 @@ class CProject extends w2p_Core_BaseObject {
 		return $q->loadHashList('project_id');
 	}
 
-	public function getContactList() {
+    public function getContactList() {
         if ($this->_AppUI->isActiveModule('contacts') && canView('contacts')) {
-            $q = new w2p_Database_Query();
+            $q = $this->_getQuery();
             $q->addTable('contacts', 'c');
             $q->addQuery('c.contact_id, contact_first_name, contact_last_name');
             $q->addQuery('contact_order_by, contact_email, contact_phone');
@@ -713,23 +713,23 @@ class CProject extends w2p_Core_BaseObject {
             $q->leftJoin('departments', 'd', 'd.dept_id = c.contact_department');
             $q->addQuery('dept_name');
 
-			$q->addJoin('project_contacts', 'pc', 'pc.contact_id = c.contact_id', 'inner');
-			$q->addWhere('pc.project_id = ' . (int) $this->project_id);
+            $q->addJoin('project_contacts', 'pc', 'pc.contact_id = c.contact_id', 'inner');
+            $q->addWhere('pc.project_id = ' . (int) $this->project_id);
 
-			$q->addWhere('
-				(contact_private=0
-					OR (contact_private=1 AND contact_owner=' . $this->_AppUI->user_id . ')
-					OR contact_owner IS NULL OR contact_owner = 0
-				)');
+            $q->addWhere('
+                    (contact_private=0
+                            OR (contact_private=1 AND contact_owner=' . (int) $this->_AppUI->user_id . ')
+                            OR contact_owner IS NULL OR contact_owner = 0
+                    )');
 
-			$department = new CDepartment;
+            $department = new CDepartment;
             $department->overrideDatabase($this->_query);
-//TODO: We need to convert this from static to use ->overrideDatabase() for testing.
-			$department->setAllowedSQL($this->_AppUI->user_id, $q);
+            //TODO: We need to convert this from static to use ->overrideDatabase() for testing.
+            $department->setAllowedSQL($this->_AppUI->user_id, $q);
 
-			return $q->loadHashList('contact_id');
-		}
-	}
+            return $q->loadHashList('contact_id');
+        }
+    }
 
 	public static function getContacts($AppUI = null, $projectId) {
 		trigger_error("CProject::getContacts has been deprecated in v3.0 and will be removed by v4.0. Please use CProject->getContactList() instead.", E_USER_NOTICE );
