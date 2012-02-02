@@ -2,6 +2,7 @@
 /reporting.tmp
 /tmp.*
 /unit_tests/reports/
+/unit_tests/phpunit.xml
 /nbproject/
 /.idea/
 /files/*
